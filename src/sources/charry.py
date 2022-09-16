@@ -83,3 +83,4 @@ if __name__ == "__main__":
     db = myclient["tobedefined"]
     recuperaciones = db["recuperaciones"]
     recuperaciones.insert_one(noticias_json)
+    print ("--- it is done  ---")

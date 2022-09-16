@@ -4,6 +4,13 @@
 import requests
 from bs4 import BeautifulSoup
 
+import pymongo
+from pymongo.server_api import ServerApi
+
+from datetime import datetime
+
+import json
+
 def get_headlines():
     # Get the web page
     url = "https://cadenaser.com/radio-coca-ser-ronda/"
@@ -16,21 +23,22 @@ def get_headlines():
     news = soup.find_all("article")
 
     # list of links to the news
-    links = []
+    noticias = []
     
     # Get the information of the 3 firsts elements
     for new in news[:2]:
-        
-        titulo = new.contents[1].find("a").get("title")
+        title = new.contents[1].find("a").get("title")
         url = 'https://cadenaser.com' + new.contents[1].find("a").get("href")
         description = new.contents[1].find("p").text
         pre_date_parse = url.split('/')
         date = f'{pre_date_parse[4]}-{pre_date_parse[5]}-{pre_date_parse[6]}'        
         body = get_detail(url)
-        links.append(url)            
-        print(f'  ( {date} ) /// {titulo} /// {description} - {body}' )
+        # noticias.append(url)            
+        # print(f'  ( {date} ) /// {titulo} /// {description} - {body}' )
+        elemento = {"titulo": title, "subtitulo": '', "descripcion": description, "fecha": date, "url": url, "cuerpo": body}
+        noticias.append(elemento)
 
-    return links
+    return noticias
 
 
 
@@ -47,8 +55,28 @@ def get_detail(url):
         body += paragraph + '\n'
     return body
 
+def compose_json(data):
+
+    now = datetime.now()
+    date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
+
+    final_json = {
+        "fuente": "SER Ronda",
+        "categoria": "local",
+        "posicionamiento" : "4",
+        "fecha_escaneo": date_time,
+        "noticias": data
+    }
+
+    return final_json
 
 # main entry point
 if __name__ == "__main__":
-    get_headlines()
+    myclient = pymongo.MongoClient("mongodb+srv://juanjo:seamosserios@cluster0.sv73ccp.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
+    noticias = get_headlines()
+    noticias_json = compose_json(noticias)
+    print (json.dumps(noticias_json, indent=4))
+    db = myclient["tobedefined"]
+    recuperaciones = db["recuperaciones"]
+    recuperaciones.insert_one(noticias_json)
     print ("--- it is done  ---")

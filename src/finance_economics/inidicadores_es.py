@@ -1,3 +1,7 @@
+"""
+This script scrapes data from the INE website and saves screenshots of various economic indicators.
+"""
+
 # This script gets data from www.ine.es
 # And saves the data in a mongodb database
 
@@ -26,6 +30,9 @@ from bs4 import BeautifulSoup
 
 
 def initialization():
+    """
+    Initialize the web scraping process by getting the web page and creating a webdriver object.
+    """
     # Get the web page
     url = "https://www.charrytv.com/noticias"
     page = requests.get(url)
@@ -46,12 +53,17 @@ def initialization():
 
 
 def destroy(driver):
+    """
+    Close and quit the webdriver.
+    """
     driver.close()
     driver.quit()
 
 
 def get_pib_chart(driver):
-
+    """
+    Scrape the PIB chart from the INE website and save the screenshot.
+    """
     # get
     driver.get("https://ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736164439&menu=ultiDatos&idp=1254735576581")
     wait = WebDriverWait(driver, 30)
@@ -79,7 +91,9 @@ def get_pib_chart(driver):
 
 
 def get_sociedades_mercantiles(driver):
-    
+    """
+    Scrape the Sociedades Mercantiles chart from the INE website and save the screenshot.
+    """
     driver.get('https://ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177026&menu=ultiDatos&idp=1254735576550')
     wait = WebDriverWait(driver, 30)
 
@@ -97,6 +111,9 @@ def get_sociedades_mercantiles(driver):
     element.screenshot('src/publishing/content/ecofin/socMercTabla.png')
 
 def get_sociedades_negocio(driver):
+    """
+    Scrape the Sociedades de Negocio chart from the INE website and save the screenshot.
+    """
     driver.get('https://ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176958&menu=ultiDatos&idp=1254735576550')
     wait = WebDriverWait(driver, 30)
 
@@ -114,6 +131,9 @@ def get_sociedades_negocio(driver):
     element.screenshot('src/publishing/content/ecofin/socNegoTabla.png')
 
 def get_hipotecas(driver):
+    """
+    Scrape the Hipotecas chart from the INE website and save the screenshot.
+    """
     driver.get('https://ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736170236&menu=ultiDatos&idp=1254735576606')
     wait = WebDriverWait(driver, 30)
 

@@ -1,3 +1,7 @@
+"""
+This script scrapes space weather data from the NOAA website and saves images locally.
+"""
+
 # import webdriver
 from webbrowser import get
 from selenium import webdriver
@@ -19,6 +23,9 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_space_weather_banner():
+    """
+    Scrape the space weather banner from the NOAA website and save the screenshot.
+    """
     service = ChromeService(executable_path=ChromeDriverManager().install())
 
     # Screenshot machine
@@ -27,7 +34,7 @@ def get_space_weather_banner():
     # create webdriver object
     driver = webdriver.Chrome(service=service)
     
-    # get geeksforgeeks.org
+    # get NOAA space weather page
     driver.get("https://www.swpc.noaa.gov/communities/radio-communications")
     
     # get element 
@@ -40,6 +47,9 @@ def get_space_weather_banner():
     driver.quit()
 
 def get_radiocomms_map():
+    """
+    Scrape the radio communications map and chart from the NOAA website.
+    """
     # Get the web page
     url = "https://www.swpc.noaa.gov/communities/radio-communications"
     page = requests.get(url)
@@ -62,6 +72,9 @@ def get_radiocomms_map():
     return url, url_chart
 
 def get_electric_map():
+    """
+    Scrape the electric power community dashboard from the NOAA website.
+    """
     # Get the web page
     url = "https://www.swpc.noaa.gov/communities/electric-power-community-dashboard"
     page = requests.get(url)
@@ -83,6 +96,9 @@ def get_electric_map():
     return url_table, url_chart
 
 def get_image_from_url(url, filename):
+    """
+    Save the image from the given URL to the specified filename.
+    """
     # Get the image
     img = requests.get(url)
 

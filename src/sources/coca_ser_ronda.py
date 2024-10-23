@@ -1,5 +1,6 @@
-# This script scraps the web page https://cadenaser.com/radio-coca-ser-ronda/
-
+"""
+This script scrapes news articles from the SER Ronda website and saves the data in a MongoDB database.
+"""
 
 import requests
 from bs4 import BeautifulSoup
@@ -12,6 +13,9 @@ from datetime import datetime
 import json
 
 def get_headlines():
+    """
+    Get the headlines from the SER Ronda website.
+    """
     # Get the web page
     url = "https://cadenaser.com/radio-coca-ser-ronda/"
     page = requests.get(url)
@@ -43,7 +47,9 @@ def get_headlines():
 
 
 def get_detail(url):
-
+    """
+    Get the details of a news article from the SER Ronda website.
+    """
     # Get the web page
     page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
@@ -56,7 +62,9 @@ def get_detail(url):
     return body
 
 def compose_json(data):
-
+    """
+    Compose the JSON object to be saved in the MongoDB database.
+    """
     now = datetime.now()
     date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
 

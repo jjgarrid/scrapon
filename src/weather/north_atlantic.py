@@ -1,3 +1,7 @@
+"""
+This script scrapes weather charts from the Met Office website and saves images locally.
+"""
+
 # This script scraps the weather chart in https://www.weathercharts.org/
 # and saves the image locally
 
@@ -13,6 +17,9 @@ from datetime import datetime
 import json
 
 def get_the_page_source():
+    """
+    Get the web page source from the Met Office website.
+    """
     # Get the web page
     url = "https://www.metoffice.gov.uk/weather/maps-and-charts/surface-pressure/"
     page = requests.get(url)
@@ -22,6 +29,9 @@ def get_the_page_source():
     return soup
 
 def get_analysis_north_atlantic(soup):
+    """
+    Get the Analysis chart for the North Atlantic from the Met Office website.
+    """
     # Get the Analysis chart
     chart = soup.find("div", class_="surface-pressure-chart")
 
@@ -33,6 +43,9 @@ def get_analysis_north_atlantic(soup):
     return url
 
 def get_forecast_12h(soup):
+    """
+    Get the 12-hour forecast chart for the North Atlantic from the Met Office website.
+    """
     # Get the Analysis chart
     chart = soup.find("div", class_="surface-pressure-chart")
 
@@ -44,6 +57,9 @@ def get_forecast_12h(soup):
     return url
 
 def get_forecast_24h(soup):
+    """
+    Get the 24-hour forecast chart for the North Atlantic from the Met Office website.
+    """
     # Get the Analysis chart
     chart = soup.find("div", class_="surface-pressure-chart")
 
@@ -56,6 +72,9 @@ def get_forecast_24h(soup):
 
 
 def get_image_from_url(url, filename):
+    """
+    Save the image from the given URL to the specified filename.
+    """
     # Get the image
     img = requests.get(url)
 

@@ -1,5 +1,6 @@
-# This script scraps the web page https://www.charrytv.com/noticias
-# and saves the data in a file called "noticias.txt"
+"""
+This script scrapes news articles from the CharryTV website and saves the data in a MongoDB database.
+"""
 
 import requests
 from bs4 import BeautifulSoup
@@ -12,6 +13,9 @@ from datetime import datetime
 import json
 
 def get_headlines():
+    """
+    Get the headlines from the CharryTV website.
+    """
     # Get the web page
     url = "https://www.charrytv.com/noticias"
     page = requests.get(url)
@@ -25,7 +29,6 @@ def get_headlines():
     # list of links to the news
     noticias = []
 
-    
     # Get the information of each news
     for new in news:
         title = new.find_all("a")[1].text
@@ -36,13 +39,14 @@ def get_headlines():
         # To Python object
         elemento = {"titulo": title, "subtitulo": subtitle, "descripcion": description, "fecha": date, "url": url, "cuerpo": body}
         noticias.append(elemento)
-        #print(f'  ( {date} ) /// {title1} /// {subtitle} - {body}' )
 
     return noticias
 
 
 def get_detail(url):
-
+    """
+    Get the details of a news article from the CharryTV website.
+    """
     # Get the web page
     page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
@@ -60,7 +64,9 @@ def get_detail(url):
     return title1, title2, body
 
 def compose_json(data):
-
+    """
+    Compose the JSON object to be saved in the MongoDB database.
+    """
     now = datetime.now()
     date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
 
@@ -75,7 +81,6 @@ def compose_json(data):
     return final_json
 
 if __name__ == "__main__":
-
     myclient = pymongo.MongoClient("mongodb+srv://juanjo:seamosserios@cluster0.sv73ccp.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
     noticias = get_headlines()
     noticias_json = compose_json(noticias)

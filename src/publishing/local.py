@@ -1,3 +1,7 @@
+"""
+This script generates a PDF document using PyLatex with a custom header and table of contents.
+"""
+
 # Create a LateX document using PyLatex
 # and convert it to PDF using pdflatex
 
@@ -7,7 +11,9 @@ from pylatex.utils import italic, bold, NoEscape
 
 
 def generate_header(doc):
-   
+    """
+    Add a custom header to the document.
+    """
     # Add document header
     header = PageStyle("header")
     # Create left header
@@ -40,11 +46,10 @@ def generate_header(doc):
     #     doc.append(LineBreak())
     #     doc.append(MediumText(bold("As at:")))
 
-    
-
 
 def fill_document(doc):
-    """Add a section, a subsection and some text to the document.
+    """
+    Add a section, a subsection and some text to the document.
 
     :param doc: the document
     :type doc: :class:`pylatex.document.Document` instance

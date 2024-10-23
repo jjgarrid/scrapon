@@ -1,3 +1,7 @@
+"""
+This script scrapes weather forecast data from the Meteoblue website and saves images locally.
+"""
+
 # This script scraps the weather forecast at https://www.meteoblue.com/en/weather/forecast/multimodel/luxembourg-findel-airport_luxembourg_6296718
 # and saves the image locally
 
@@ -14,6 +18,9 @@ import json
 
 
 def get_multimode_luxembourg():
+    """
+    Scrape the multimodel weather forecast for Luxembourg from the Meteoblue website.
+    """
     # Get the web page
     url = "https://www.meteoblue.com/en/weather/forecast/multimodel/luxembourg-findel-airport_luxembourg_6296718"
     page = requests.get(url)
@@ -33,6 +40,9 @@ def get_multimode_luxembourg():
 
 
 def get_multimode_Ronda():
+    """
+    Scrape the multimodel weather forecast for Ronda from the Meteoblue website.
+    """
     # Get the web page
     url = "https://www.meteoblue.com/en/weather/forecast/multimodel/ronda_spain_2511730"
     page = requests.get(url)
@@ -52,6 +62,9 @@ def get_multimode_Ronda():
 
 
 def get_image_from_url(url, filename):
+    """
+    Save the image from the given URL to the specified filename.
+    """
     # Get the image
     img = requests.get(url)
 
